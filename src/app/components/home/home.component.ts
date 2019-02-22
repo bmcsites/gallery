@@ -11,6 +11,15 @@ export class HomeComponent implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
+    this.httpService.getimages(20, 20).subscribe(data => {
+      console.log(data);
+      // if(data.status === 'success') {
+      //
+      // }
+      },
+      err => {
+        console.log('err:::', err);
+      });
   }
 
 }
