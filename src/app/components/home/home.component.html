@@ -1,5 +1,22 @@
-<div class="continer">
-  <div class="image-card col-md-4" >
-    <img src="">
+<div class="continer" *ngIf="data">
+  <div class="row">
+    <div class="image-card col-4" *ngFor="let image of data">
+        <img src="{{ image.media }}" (click)="openModal(imageBox, image)">
+        <!--<span>{{ image._id }}</span>-->
+    </div>
   </div>
 </div>
+
+<ng-template #imageBox let-c="close" let-d="dismiss" style="width: auto">
+  <div class="content-wrapper">
+    <div class="modal-header">
+      <h4 class="modal-title">{{opendImage.title}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c('')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img src="{{ opendImage.media }}">
+    </div>
+  </div>
+</ng-template>
