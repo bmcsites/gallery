@@ -8,6 +8,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { HomeComponent } from '@components/home/home.component';
 import { HttpService } from '@services/http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common'
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     NgbModule,
     AngularFontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

@@ -1,6 +1,13 @@
 .image-card {
   align-items: center;
   justify-content: center;
+  .image-box{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: block;
+    position: relative;
+  }
   img {
     width: 100%;
     height: 100%;
