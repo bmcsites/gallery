@@ -15,8 +15,14 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
-      <img src="{{ opendImage.media }}">
+    <div class="modal-body" #modalBody>
+      <span class="fa fa-info-circle modal-info-icon" (click)="modalBody.hover = !modalBody.hover"></span>
+        <div class="over-image-info" [hidden]="!modalBody.hover">
+          <p><b>image id:</b> {{opendImage.b_id}}</p>
+          <p><b>image-size:</b> {{opendImage.width}} / {{opendImage.height}}</p>
+          <a href="{{opendImage.media_fullsize}}" target="_blank">open full image in new tab</a>
+        </div>
+          <img src="{{ opendImage.media }}">
     </div>
   </div>
 </ng-template>
