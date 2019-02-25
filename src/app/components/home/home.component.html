@@ -1,6 +1,6 @@
-<div class="continer" *ngIf="data">
+<div class="continer" *ngIf="loadedData">
   <div class="row">
-    <div class="image-card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" *ngFor="let image of data">
+    <div class="image-card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" *ngFor="let image of loadedData">
       <div class="image-box">
         <img src="{{ image.media }}" (click)="openModal(imageBox, image)">
       </div>
