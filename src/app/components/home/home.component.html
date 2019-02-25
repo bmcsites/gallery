@@ -2,7 +2,12 @@
   <div class="row">
     <div class="image-card col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" *ngFor="let image of loadedData">
       <div class="image-box">
-        <img src="{{ image.media }}" (click)="openModal(imageBox, image)">
+        <img
+          src="{{ image.media_preview }}"
+          data-src="{{ image.media }}"
+          (click)="openModal(imageBox, image)"
+          data-srcset="{{ image.thumbnail }} 480w, {{ image.media }} 640w, {{ image.media }} 1024w"
+        >
       </div>
     </div>
   </div>
@@ -23,7 +28,11 @@
           <p><b>image-size:</b> {{opendImage.width}} / {{opendImage.height}}</p>
           <a href="{{opendImage.media_fullsize}}" target="_blank">open full image in new tab</a>
         </div>
-          <img src="{{ opendImage.media }}">
+      <img
+        src="{{ opendImage.media }}"
+        data-src="{{ opendImage.media_fullsize }}"
+        data-srcset="{{ opendImage.thumbnail }} 480w, {{ opendImage.media }} 640w, {{ opendImage.media_fullsize }} 1024w"
+      >
     </div>
   </div>
 </ng-template>
