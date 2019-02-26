@@ -5,7 +5,7 @@
         <img
           src="{{ image.media_preview }}"
           data-src="{{ image.media }}"
-          (click)="openModal(imageBox, image)"
+          (click)="openModal(image)"
           data-srcset="{{ image.thumbnail }} 480w, {{ image.media }} 640w, {{ image.media }} 1024w"
         >
       </div>
@@ -13,26 +13,4 @@
   </div>
 </div>
 
-<ng-template #imageBox let-c="close" let-d="dismiss" style="width: auto">
-  <div class="content-wrapper">
-    <div class="modal-header">
-      <h4 class="modal-title">{{opendImage.title}}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="c('')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" #modalBody>
-      <span class="fa fa-info-circle modal-info-icon" (click)="modalBody.hover = !modalBody.hover"></span>
-        <div class="over-image-info" [hidden]="!modalBody.hover">
-          <p><b>image id:</b> {{opendImage.b_id}}</p>
-          <p><b>image-size:</b> {{opendImage.width}} / {{opendImage.height}}</p>
-          <a href="{{opendImage.media_fullsize}}" target="_blank">open full image in new tab</a>
-        </div>
-      <img
-        src="{{ opendImage.media }}"
-        data-src="{{ opendImage.media_fullsize }}"
-        data-srcset="{{ opendImage.thumbnail }} 480w, {{ opendImage.media }} 640w, {{ opendImage.media_fullsize }} 1024w"
-      >
-    </div>
-  </div>
-</ng-template>
+<app-large-image-modal #largeModal></app-large-image-modal>

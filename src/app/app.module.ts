@@ -8,12 +8,14 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { HomeComponent } from '@components/home/home.component';
 import { HttpService } from '@services/http.service';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
+import { LargeImageModalComponent } from '@components/large-image-modal/large-image-modal.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LargeImageModalComponent
   ],
   imports: [
     BrowserModule,

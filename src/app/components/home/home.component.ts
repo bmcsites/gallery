@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '@services/http.service';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { LargeImageModalComponent } from '@components/large-image-modal/large-image-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -11,24 +11,31 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   data: any;
   loadedData: any;
-  modelWindow: NgbModalRef;
-  opendImage: any;
+  imageIndex: number;
+  imageDataLoad: boolean;
+  @ViewChild( 'largeModal' ) child: LargeImageModalComponent ;
 
-  constructor(private httpService: HttpService, private modalService: NgbModal) { }
+  constructor(private httpService: HttpService) {
+    // reset imageIndex and imageDataLoad
+    this.imageIndex = 0;
+    this.imageDataLoad = false;
+  }
 
   ngOnInit() {
+    // load images from server and add the scroll listener
     this.getImages();
     window.addEventListener('scroll', this.scroll, true);
   }
 
   getImages() {
+    // call server (json) to load images
     this.httpService.getimages().subscribe(data => {
         // @ts-ignore
         if (data.status === 'success') {
           // @ts-ignore
           this.data = data.data.result.items;
-          console.log('this.data :::', this.data);
-          this.getNextImages(0, 10);
+          // call getNextImages to load only 10 images.
+          this.getNextImages(10);
         }
       },
       err => {
@@ -36,30 +43,41 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  getNextImages(count, offset) {
+  // load 10 images or add them.
+  getNextImages(offset) {
+    // reset parameters if not was set before.
     if (!this.loadedData) {
       this.loadedData = [];
-      count = 0;
+      this.imageIndex = 0;
       offset = 10;
     }
-    const addedImages = this.data.slice(count, offset);
+    // check index and offset and then load images into loaded data.
+    const addedImages = this.data.slice(this.imageIndex, this.imageIndex + offset);
     this.loadedData = this.loadedData.concat(addedImages);
-    console.log(addedImages, this.loadedData);
+    // update index
+    this.imageIndex = this.imageIndex + 10;
+    // update imageDataLoad
+    this.imageDataLoad = false;
   }
 
-  openModal(content, image) {
-    this.opendImage = image;
-    this.modelWindow = this.modalService.open(content, { backdrop : true, beforeDismiss: () => false });
+  // click on image calls child openModal function to view the image modal
+  openModal(image) {
+    this.child.openModal(image);
   }
 
+  // scroll function that being called when scrolling.
   scroll = (): void => {
-    console.log('scroll', document.documentElement.clientHeight, window.pageYOffset, document.body.scrollHeight);
-    if (document.documentElement.clientHeight <= window.pageYOffset) {
-      this.getNextImages(11, 10);
+    // check if we get to the end of the scroll bar
+    if ((window.innerHeight + window.scrollY >= document.documentElement.offsetHeight) && !this.imageDataLoad) {
+      // update imageDataLoad to avoid duplicate calls.
+      this.imageDataLoad = true;
+      // call getNextImages with the 10 as offset.
+      this.getNextImages(10);
     }
   };
 
   ngOnDestroy() {
+    // remove Listener when component is being Destroy'd
     window.removeEventListener('scroll', this.scroll, true);
   }
 
